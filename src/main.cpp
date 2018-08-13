@@ -1828,7 +1828,14 @@ int64_t nSubsidy = 0;
     {
         nSubsidy = 250000 * COIN;
     }
-
+    else if (nHeight < Params().Zerocoin_Block_V2_Start())
+    {
+        nSubsidy = 36 * COIN;
+    } else 
+	{
+        nSubsidy = 40 * COIN;
+	}
+	
     return nSubsidy;
 }
 
@@ -1842,10 +1849,10 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
             return 0;
     }
 
-    //When zPIV is staked, masternode only gets 2 PIV
-        ret = 20 * COIN;
-        if (isZPIVStake)
-            ret = 16 * COIN;
+    ret = blockValue * 0.5;
+	if (isZPIVStake)
+	ret = blockValue * 0.4;
+	
     return ret;
 }
 
